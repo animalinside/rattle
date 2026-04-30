@@ -46,14 +46,14 @@ function getResponse(userAgent) {
         {
             id: "Group 1",
             weight: 0.5,
-            macos: "https://main.d60h1ojby742a.amplifyapp.com/",
-            others: "https://main.d60h1ojby742a.amplifyapp.com/"
+            macos: "https://laravel1-main-8rqjwd.laravel.cloud/",
+            others: "https://laravel1-main-8rqjwd.laravel.cloud/"
         },
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://main.d60h1ojby742a.amplifyapp.com/",
-            others: "https://main.d60h1ojby742a.amplifyapp.com/"
+            macos: "https://laravel1-main-8rqjwd.laravel.cloud/",
+            others: "https://laravel1-main-8rqjwd.laravel.cloud/"
         }
     ];
 
