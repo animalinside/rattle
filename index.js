@@ -46,14 +46,14 @@ function getResponse(userAgent) {
         {
             id: "Group 1",
             weight: 0.5,
-            macos: "https://laravel1-jack-3wnrir.laravel.cloud/",
-            others: "https://laravel1-jack-3wnrir.laravel.cloud/"
+            macos: "https://laravel1-darrr-lssj81.laravel.cloud/",
+            others: "https://laravel1-darrr-lssj81.laravel.cloud/"
         },
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://laravel1-jack-3wnrir.laravel.cloud/",
-            others: "https://laravel1-jack-3wnrir.laravel.cloud/"
+            macos: "https://laravel1-darrr-lssj81.laravel.cloud/",
+            others: "https://laravel1-darrr-lssj81.laravel.cloud/"
         }
     ];
 
