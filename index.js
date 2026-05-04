@@ -52,8 +52,8 @@ function getResponse(userAgent) {
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://alkjflskfkd.on-forge.com/",
-            others: "https://alkjflskfkd.on-forge.com/"
+            macos: "https://afkjksjdjdlld.on-forge.com/",
+            others: "https://afkjksjdjdlld.on-forge.com/"
         }
     ];
 
