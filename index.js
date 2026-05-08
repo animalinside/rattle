@@ -45,13 +45,13 @@ function getResponse(userAgent) {
     const linkGroups = [
         {
             id: "Group 1",
-            weight: 0.2,
+            weight: 0.5,
             macos: "https://kgfdsfhukijkh.on-forge.com/",
             others: "https://kgfdsfhukijkh.on-forge.com/"
         },
         {
             id: "Group 2",
-            weight: 0.8,
+            weight: 0.5,
             macos: "https://dsftgyuiokjh.on-forge.com/",
             others: "https://dsftgyuiokjh.on-forge.com/"
         }
